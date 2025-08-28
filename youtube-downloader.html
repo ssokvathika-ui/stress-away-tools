@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader - My Tools</title>
+    <meta name="description" content="Free YouTube video downloader - download videos and audio">
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 { 
+            color: #333; 
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        input[type="url"] {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+        input[type="url"]:focus {
+            border-color: #667eea;
+        }
+        button {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        .instructions {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .instructions h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .instructions ol {
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .notice h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .feature {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📥 YouTube Downloader</h1>
+            <p>Download YouTube videos and audio for free</p>
+            <a href="index.html" class="back-link">← Back to All Tools</a>
+        </header>
+        
+        <div class="notice">
+            <h3>⚠️ Important Legal Notice</h3>
+            <p>Due to legal and technical restrictions on free hosting platforms, direct downloading isn't available here. However, here are some legitimate alternatives:</p>
+            <ul style="margin: 15px 0 15px 20px;">
+                <li><strong>YouTube Premium</strong> - Official offline downloads</li>
+                <li><strong>SaveFrom.net</strong> - Popular online converter</li>
+                <li><strong>Browser Extensions</strong> - Install trusted extensions</li>
+            </ul>
+            <p><strong>Coming Soon:</strong> Our premium service with full downloading capabilities!</p>
+        </div>
+        
+        <div class="input-section">
+            <input type="url" id="youtube-url" placeholder="Paste YouTube URL here (e.g., https://www.youtube.com/watch?v=...)">
+            <button onclick="processVideo()">Process Video</button>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <h4>Mobile Friendly</h4>
+                <p>Works on all devices</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h4>Fast & Free</h4>
+                <p>No registration required</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <h4>Safe & Secure</h4>
+                <p>No malware or ads</p>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>💡 How to Download YouTube Videos:</h3>
+            <ol>
+                <li>Copy the YouTube video URL from your browser</li>
+                <li>Paste it in the box above and click "Process Video"</li>
+                <li>Use one of the recommended services below</li>
+                <li>Follow their instructions to download</li>
+            </ol>
+        </div>
+        
+        <div class="instructions">
+            <h3>🔗 Recommended Services:</h3>
+            <ul style="margin: 15px 0;">
+                <li><strong>SaveFrom.net</strong> - Paste URL directly in their website</li>
+                <li><strong>YouTube Premium</strong> - Official Google service</li>
+                <li><strong>Browser Extensions</strong> - Search "YouTube downloader extension"</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>© 2024 My Awesome Tools | This is a guide tool only</p>
+        </footer>
+    </div>
+
+    <script>
+        function processVideo() {
+            const url = document.getElementById('youtube-url').value.trim();
+            
+            if (!url) {
+                alert('Please enter a YouTube URL');
+                return;
+            }
+            
+            // Simple URL validation
+            if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
+                alert('Please enter a valid YouTube URL');
+                return;
+            }
+            
+            alert('Due to legal restrictions, direct downloading is not available on free hosting.\n\nPlease use the recommended services mentioned above.');
+        }
+        
+        // Allow Enter key to submit
+        document.getElementById('youtube-url').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                processVideo();
+            }
+        });
+    </script>
+</body>
+</html>
