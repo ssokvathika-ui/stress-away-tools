@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter - My Tools</title>
+    <meta name="description" content="Free unit converter - convert length, weight, temperature, and more">
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e90ff, #4169e1);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 { 
+            color: #333; 
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1e90ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .converter-section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .converter-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        input, select {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+        input:focus, select:focus {
+            border-color: #1e90ff;
+        }
+        input[type="number"] {
+            flex: 1;
+            min-width: 120px;
+        }
+        select {
+            min-width: 120px;
+        }
+        button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #1e90ff, #4169e1);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.4);
+        }
+        .result {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: bold;
+            color: #0c5460;
+        }
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .category {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .category:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        .category.active {
+            background: #1e90ff;
+            color: white;
+            border-color: #1e90ff;
+        }
+        .category-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+        @media (max-width: 600px) {
+            .converter-row {
+                flex-direction: column;
+            }
+            input, select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📏 Unit Converter</h1>
+            <p>Convert between different units of measurement</p>
+            <a href="index.html" class="back-link">← Back to All Tools</a>
+        </header>
+        
+        <div class="categories">
+            <div class="category active" onclick="setCategory('length')">
+                <div class="category-icon">📏</div>
+                <div>Length</div>
+            </div>
+            <div class="category" onclick="setCategory('weight')">
+                <div class="category-icon">⚖️</div>
+                <div>Weight</div>
+            </div>
+            <div class="category" onclick="setCategory('temperature')">
+                <div class="category-icon">🌡️</div>
+                <div>Temperature</div>
+            </div>
+            <div class="category" onclick="setCategory('area')">
+                <div class="category-icon">📐</div>
+                <div>Area</div>
+            </div>
+        </div>
+        
+        <div class="converter-section">
+            <div class="converter-row">
+                <input type="number" id="input-value" value="1" placeholder="Enter value" step="any">
+                <select id="input-unit"></select>
+                <span>=</span>
+                <input type="number" id="output-value" placeholder="Result" readonly>
+                <select id="output-unit"></select>
+            </div>
+            
+            <button onclick="convertUnits()">Convert</button>
+            
+            <div id="result" class="result">
+                Enter values and click convert
+            </div>
+        </div>
+        
+        <div style="background: #f8f9fa; border-radius: 10px; padding: 20px; margin-top: 25px;">
+            <h3 style="margin-bottom: 15px; color: #333;">💡 Common Conversions:</h3>
+            <ul style="margin-left: 20px;">
+                <li>1 meter = 3.28084 feet</li>
+                <li>1 kilogram = 2.20462 pounds</li>
+                <li>0°C = 32°F</li>
+                <li>1 acre = 43,560 square feet</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>© 2024 My Awesome Tools | Accurate unit conversions</p>
+        </footer>
+    </div>
+
+    <script>
+        // Conversion data
+        const conversionData = {
+            length: {
+                units: ['Meters', 'Kilometers', 'Centimeters', 'Millimeters', 'Inches', 'Feet', 'Yards', 'Miles'],
+                conversions: {
+                    Meters: 1,
+                    Kilometers: 0.001,
+                    Centimeters: 100,
+                    Millimeters: 1000,
+                    Inches: 39.3701,
+                    Feet: 3.28084,
+                    Yards: 1.09361,
+                    Miles: 0.000621371
+                }
+            },
+            weight: {
+                units: ['Grams', 'Kilograms', 'Milligrams', 'Pounds', 'Ounces', 'Tons'],
+                conversions: {
+                    Grams: 1,
+                    Kilograms: 0.001,
+                    Milligrams: 1000,
+                    Pounds: 0.00220462,
+                    Ounces: 0.035274,
+                    Tons: 0.000001
+                }
+            },
+            temperature: {
+                units: ['Celsius', 'Fahrenheit', 'Kelvin'],
+                conversions: {} // Special handling required
+            },
+            area: {
+                units: ['Square Meters', 'Square Kilometers', 'Square Feet', 'Square Inches', 'Acres', 'Hectares'],
+                conversions: {
+                    'Square Meters': 1,
+                    'Square Kilometers': 0.000001,
+                    'Square Feet': 10.7639,
+                    'Square Inches': 1550.0031,
+                    'Acres': 0.000247105,
+                    'Hectares': 0.0001
+                }
+            }
+        };
+        
+        let currentCategory = 'length';
+        
+        // Initialize the converter
+        function initConverter() {
+            populateUnits();
+        }
+        
+        // Set category and update units
+        function setCategory(category) {
+            currentCategory = category;
+            
+            // Update active category styling
+            document.querySelectorAll('.category').forEach(cat => {
+                cat.classList.remove('active');
+            });
+            event.target.closest('.category').classList.add('active');
+            
+            populateUnits();
+            document.getElementById('result').innerHTML = 'Select units and enter value';
+        }
+        
+        // Populate unit dropdowns
+        function populateUnits() {
+            const inputUnit = document.getElementById('input-unit');
+            const outputUnit = document.getElementById('output-unit');
+            
+            // Clear existing options
+            inputUnit.innerHTML = '';
+            outputUnit.innerHTML = '';
+            
+            // Add new options
+            const units = conversionData[currentCategory].units;
+            units.forEach(unit => {
+                const option1 = document.createElement('option');
+                option1.value = unit;
+                option1.textContent = unit;
+                inputUnit.appendChild(option1);
+                
+                const option2 = document.createElement('option');
+                option2.value = unit;
+                option2.textContent = unit;
+                outputUnit.appendChild(option2);
+            });
+            
+            // Set default output unit to second option
+            if (units.length > 1) {
+                outputUnit.selectedIndex = 1;
+            }
+        }
+        
+        // Convert units
+        function convertUnits() {
+            const inputValue = parseFloat(document.getElementById('input-value').value);
+            const inputUnit = document.getElementById('input-unit').value;
+            const outputUnit = document.getElementById('output-unit').value;
+            
+            if (isNaN(inputValue)) {
+                document.getElementById('result').innerHTML = 'Please enter a valid number';
+                return;
+            }
+            
+            let result;
+            
+            if (currentCategory === 'temperature') {
+                result = convertTemperature(inputValue, inputUnit, outputUnit);
+            } else {
+                const conversions = conversionData[currentCategory].conversions;
+                // Convert to base unit first, then to target unit
+                const baseValue = inputValue / conversions[inputUnit];
+                result = baseValue * conversions[outputUnit];
+            }
+            
+            document.getElementById('output-value').value = result.toFixed(6);
+            document.getElementById('result').innerHTML = 
+                `${inputValue} ${inputUnit} = ${result.toFixed(6)} ${outputUnit}`;
+        }
+        
+        // Special temperature conversion
+        function convertTemperature(value, from, to) {
+            // Convert to Celsius first
+            let celsius;
+            switch(from) {
+                case 'Celsius':
+                    celsius = value;
+                    break;
+                case 'Fahrenheit':
+                    celsius = (value - 32) * 5/9;
+                    break;
+                case 'Kelvin':
+                    celsius = value - 273.15;
+                    break;
+            }
+            
+            // Convert from Celsius to target
+            switch(to) {
+                case 'Celsius':
+                    return celsius;
+                case 'Fahrenheit':
+                    return (celsius * 9/5) + 32;
+                case 'Kelvin':
+                    return celsius + 273.15;
+            }
+        }
+        
+        // Allow Enter key to convert
+        document.getElementById('input-value').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                convertUnits();
+            }
+        });
+        
+        // Initialize on page load
+        window.onload = initConverter;
+    </script>
+</body>
+</html>
